@@ -1,19 +1,18 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import config from "./config";
 
 const api = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: config.API_URL,
   headers: { "Content-Type": "application/json" },
 });
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use((cfg) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    cfg.headers.Authorization = `Bearer ${token}`;
   }
-  return config;
+  return cfg;
 });
 
 api.interceptors.response.use(
@@ -27,7 +26,7 @@ api.interceptors.response.use(
         if (!refreshToken) throw new Error("No refresh token");
 
         const res = await axios.post(
-          `${API_URL}/api/auth/refresh`,
+          `${config.API_URL}/auth/refresh`,
           { refreshToken }
         );
 

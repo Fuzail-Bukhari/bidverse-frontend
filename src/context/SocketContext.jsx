@@ -1,10 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import useAuthStore from "../store/authStore";
+import config from "../utils/config";
 
 const SocketContext = createContext(null);
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
@@ -12,7 +11,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const newSocket = io(API_URL, {
+      const newSocket = io(config.SOCKET_URL, {
         transports: ["websocket"],
       });
 
@@ -43,5 +42,4 @@ export const SocketProvider = ({ children }) => {
 };
 
 export const useSocketContext = () => useContext(SocketContext);
-
 export default SocketContext;
