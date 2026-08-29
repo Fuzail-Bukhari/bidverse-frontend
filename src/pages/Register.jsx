@@ -16,8 +16,6 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 const Register = () => {
   const [form, setForm] = useState({
     name: "", email: "", password: "", role: "buyer",
@@ -42,7 +40,7 @@ const Register = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${API_URL}/api/auth/google`;
+    window.location.href = "https://bidverse-backend-f2yq.onrender.com/api/auth/google";
   };
 
   return (
